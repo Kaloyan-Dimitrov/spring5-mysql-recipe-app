@@ -2,7 +2,9 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2
+version: 2.1
+orbs:
+  codecov: codecov/codecov@3.2.4
 jobs:
   build:
     docker:
@@ -43,6 +45,5 @@ jobs:
       - store_test_results:
           path: target/surefire-reports
 
-      - run:
-          name: Send to CodeCov
-          command: bash <(curl -Os https://uploader.codecov.io/latest/linux/codecov)
+      - codecov/upload:
+          file: target/site/cobertura/coverage.xml
